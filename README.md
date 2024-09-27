@@ -4,7 +4,8 @@
 ## Installation & usage
 
 **From pypi**:
-```pip install numpy, pandas, scipy, spaed
+```
+pip install numpy, pandas, scipy, spaed
 
 python
 import spaed
@@ -25,11 +26,11 @@ ex. `apptainer run spaed protID_predicted_aligned_error.json --output_file spaed
 
 **From source**:
 ```
-git clone https://github.
+git clone https://github.com/Rousseau-Team/spaed.git
 
 pip install numpy pandas scipy
 ./src/spaed/spaed.py pae_path **args
-````
+```
 
 ex. `./src/spaed/spaed.py pae_path`
 
