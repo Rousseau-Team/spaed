@@ -459,7 +459,7 @@ def get_delineations(clusters):
 """
 Function that launches the whole pipeline.
 """
-def spaed(pae_path, output_file, MAX_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER):
+def spaed(pae_path, output_file="./spaed_predictions.csv", MAX_CLUSTERS="dynamic", MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=20, PAE_SCORE_CUTOFF=5, FREQ_DISORDERED=6, PROP_DISORDERED=0.80, FREQ_LINKER=15):
     pattern = "_predicted_aligned_error_v1"
     all_delineations = pd.DataFrame(columns=["length", "# domains", "domains", "linkers", "disordered"]).astype(object)
     print("Start")
