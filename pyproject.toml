@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/spaed"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["docs/*", "spaed.def"]
+
+[project]
+name = "spaed"
+version = "0.0.1"
+authors = [
+  { name="Alexandre Boulay", email="alexandre.boulay.6@ulaval.ca" }
+]
+description = "A module for the segmentation of phage endolysin domains based on the PAE matrix from alphafold."
+readme = "README.md"
+
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+]
+keywords = ["phage", "bacteriophage", "bioinformatics", "protein", "segmentation", "delineation", "domain"]
+
+[project.urls]
+Homepage = "https://huggingface.co/AlexandreBoulay/spaed"
