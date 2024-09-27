@@ -9,7 +9,6 @@ pip install numpy, pandas, scipy, spaed
 
 python
 import spaed
-spaed(pae_path, **args)
 ```
 
 ex. `spaed(pae_path, output_file="spaed_predictions.csv")`
@@ -18,7 +17,6 @@ ex. `spaed(pae_path, output_file="spaed_predictions.csv")`
 **From docker/apptainer**:
 ```
 apptainer fetch spaed
-apptainer run spaed pae_path **args
 ```
 
 ex. `apptainer run spaed protID_predicted_aligned_error.json --output_file spaed_predictions.csv`
@@ -29,7 +27,6 @@ ex. `apptainer run spaed protID_predicted_aligned_error.json --output_file spaed
 git clone https://github.com/Rousseau-Team/spaed.git
 
 pip install numpy pandas scipy
-./src/spaed/spaed.py pae_path **args
 ```
 
 ex. `./src/spaed/spaed.py pae_path`
