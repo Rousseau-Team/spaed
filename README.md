@@ -3,10 +3,9 @@
 
 ## Installation & usage
 
-**From pypi**:\
-```pip install numpy, pandas, scipy, spaed```
+**From pypi**:
+```pip install numpy, pandas, scipy, spaed
 
-```
 python
 import spaed
 spaed(pae_path, **args)
@@ -16,8 +15,10 @@ ex. `spaed(pae_path, output_file="spaed_predictions.csv")`
 
 
 **From docker/apptainer**:
-`apptainer fetch spaed`
-`apptainer run spaed pae_path **args`
+```
+apptainer fetch spaed
+apptainer run spaed pae_path **args
+```
 
 ex. `apptainer run spaed protID_predicted_aligned_error.json --output_file spaed_predictions.csv`
 
