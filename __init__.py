@@ -1,1 +1,1 @@
-import spaed
+from .spaed import spaed
