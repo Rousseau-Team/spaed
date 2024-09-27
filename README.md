@@ -2,11 +2,11 @@
 
 
 ## Installation & usage
-Create virtual environment
-
-**From pypi**:
-pip install numpy, pandas, scipy, spaed
-
+Create virtual environment\
+\
+**From pypi**:\
+pip install numpy, pandas, scipy, spaed\
+\
 python
 import spaed
 spaed(pae_path, **args)
@@ -33,7 +33,7 @@ ex. ./src/spaed/spaed.py pae_path
 
 ## Advanced usage
 **Positional arguments**:
-Input file or folder - folder of or singular PAE file in json format as outputted by Alphafold2/Colabfold.
+- pae_path - Folder of or singular PAE file in json format as outputted by Alphafold2/Colabfold.
 
 
 **Optional arguments**:
@@ -48,6 +48,6 @@ Input file or folder - folder of or singular PAE file in json format as outputte
 
 MAX_CLUSTERS refers to the # of clusters the hierarchical clustering (in scipy) should try to create. A higher number than the number of domains you expect to observe should be used. This is to allow flexible regions (like the ends of the sequences or the linker regions) to be assigned to their own clusters. By default we use one tenth of the length of the protein, but you can manually set this value to any integer.
 
-Increasing FREQ_DISORDERED to around 30 will allow you to detect more disordered regions, but will also lead to many false positives. Also consider decreasing the value of MIN_DISORDERED_SIZE to around 10. Finally, to detect more disordered regions you can also decrease PROP_DISORDERED, but I would not change all values at the same time as this will probably increase the sensitivity too much.
+If you are interested in looking at the disordered regions in N- or C-terminal, consider increasing FREQ_DISORDERED (~30), decreasing MIN_DISORDERED_SIZE (~10) or decreasing PROP_DISORDERED (~50). This will result in more disordered regions being detected, but also many false positives. I would not change them all at the same time as this will probably increase the sensitivity too much.
 
 If you are interested in linkers, consider modifying the FREQ_LINKER parameter. This value is used to adjust the boundaries of the linkers and as such, a higher value will result in longer linkers, but will not detect new linkers.
