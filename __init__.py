@@ -1,1 +1,1 @@
-from src/spaed import spaed
+from .src/spaed import spaed
