@@ -8,6 +8,7 @@ packages = ["src/spaed"]
 [tool.hatch.build.targets.sdist]
 exclude = ["docs/*", "spaed.def"]
 
+
 [project]
 name = "spaed"
 version = "0.0.1"
@@ -22,6 +23,7 @@ dependencies = [
     "pandas",
     "scipy"
 ]
+
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
@@ -29,4 +31,4 @@ classifiers = [
 keywords = ["phage", "bacteriophage", "bioinformatics", "protein", "segmentation", "delineation", "domain"]
 
 [project.urls]
-Homepage = "https://huggingface.co/AlexandreBoulay/spaed"
+Homepage = "https://github.com/Rousseau-Team/spaed.git"
