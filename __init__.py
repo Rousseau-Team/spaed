@@ -1,1 +1,1 @@
-import src.spaed.spaed
+import spaed
