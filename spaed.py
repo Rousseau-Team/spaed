@@ -465,11 +465,7 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", MAX_CLUSTERS="dynamic
     print("Start")
     #Check that specified path to input exists
     if not os.path.exists(pae_path):
-        raise FileNotFoundError(f"{pae} was not found.")
-
-    #Check that specified path to output folder exists
-    if not os.path.exists(os.path.dirname(f"./{output_file}")):
-        raise FileNotFoundError(f"{output_file} was not found.")
+        raise FileNotFoundError(f"{pae_path} was not found.")
 
     if os.path.isfile(pae_path):
         sample_name = os.path.basename(pae_path).replace(".json", "").replace(pattern, "")
