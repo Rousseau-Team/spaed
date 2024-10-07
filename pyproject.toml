@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 packages = ["src/spaed"]
 
 [tool.hatch.build.targets.sdist]
-exclude = ["docs/*", "spaed.def"]
+exclude = ["docs/*"]
 
 
 [project]
