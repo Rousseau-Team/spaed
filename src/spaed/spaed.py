@@ -74,7 +74,9 @@ def spaed_(pae, MAX_CLUSTERS=40, MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=20, PAE
         clusters = correct_ends(pae, clusters, PAE_SCORE_CUTOFF, MIN_DISORDERED_SIZE, FREQ_DISORDERED, PROP_DISORDERED, MIN_DOMAIN_SIZE)
 
     if linkers: #adjust linkers
-        adjust_linkers(pae, clusters, PAE_SCORE_CUTOFF, MIN_DOMAIN_SIZE, FREQ_DISORDERED, FREQ_LINKER)
+        clusters = adjust_linkers(pae, clusters, PAE_SCORE_CUTOFF, MIN_DOMAIN_SIZE, FREQ_DISORDERED, FREQ_LINKER)
+
+    clusters = filter_short(clusters, MIN_DOMAIN_SIZE)
 
     if plot: #plot pae matrix with predicted domains
         cols = map_cols(clusters, len(np.unique(clusters)), form=form)
@@ -287,7 +289,7 @@ def adjust_linker_(pae_counts, clusters, linker, FREQ_LINKER):
     l_border = linker[0]; r_border=linker[-1]
     thresh  = pae_counts[l_border : r_border+1].min() + FREQ_LINKER #Thresh depends on linker and level of packing in PAE matrix
 
-    #if linker is next to a disorded region, it cannot be a linker (either add to linker or to nearest domain)
+    #if linker is next to a disordered region, it cannot be a linker (either add to linker or to nearest domain)
     if (clusters[l_border-1] == -2): #left of linker
         for i in linker:
             if pae_counts[i] < FREQ_LINKER: clusters[i] = -2
@@ -350,12 +352,12 @@ def adjust_linkers(pae, clusters, PAE_SCORE_CUTOFF, MIN_DOMAIN_SIZE, FREQ_DISORD
     for linker in linkers:
         clusters = adjust_linker_(pae_counts, clusters, linker, FREQ_LINKER)
 
-    #check if long linkers are actually domains that got missed
+    #check if long linkers are actually domains that got missed (because hier clustering broke it up into many small clusters)
     linkers = get_linker_indices(clusters)
     for linker in linkers:
         if len(linker) > MIN_DOMAIN_SIZE-5: #probably a domain
-            prop = (pae_counts[linker] < FREQ_DISORDERED).sum() / len(linker) #proportion of disordered residues
-            domain = prop < 0.80 #most probably a domain surrounded by two linkers; at least 4/5 of residues are ordered
+            prop = (pae_counts[linker] <= FREQ_DISORDERED).sum() / len(linker) #proportion of disordered residues
+            domain = prop < 0.50 #most probably a domain surrounded by two linkers; at least 4/5 of residues are ordered
 
             if domain:
                 #If linker is at end of sequence because of previous correction, set it as a disordered region
@@ -371,6 +373,31 @@ def adjust_linkers(pae, clusters, PAE_SCORE_CUTOFF, MIN_DOMAIN_SIZE, FREQ_DISORD
                         dom_end = i; break
                 clusters[dom_start : dom_end+1] = 102 #assign a new cluster number to the middle region
 
+    return clusters
+
+
+"""
+One last check of domains. Domains that are too small (< MIN_DOMAIN_SIZE) are converted to linkers or disordered regions depending on location.
+"""
+def filter_short(clusters, MIN_DOMAIN_SIZE):
+    for i in set(clusters.unique()) - set([-1, -2]):
+        short = (clusters == i).sum() < MIN_DOMAIN_SIZE
+        if short & ((clusters.iloc[0] == i) | (clusters.iloc[-1] == i)):
+            start = True if (clusters.iloc[0] == i) else False
+            #clusters[clusters==i] = -2
+            if start:
+                end_dis = clusters.loc[clusters == -2].index[-1] + 1
+                while clusters.iloc[end_dis] == -1:
+                    clusters.iloc[end_dis] = -2
+                    end_dis += 1
+            else:
+                start_dis = clusters.loc[clusters == i].index[0] - 1
+                while clusters.iloc[start_dis] == -1:
+                    clusters.iloc[start_dis] = -2
+                    start_dis -= 1
+            clusters[clusters==i] = -2
+        elif short & ((clusters.iloc[0] != i) & (clusters.iloc[-1] != i)):
+            clusters[clusters==i] = -1
     return clusters
 
 
