@@ -77,6 +77,7 @@ def spaed_(pae, MAX_CLUSTERS=40, MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=20, PAE
         clusters = adjust_linkers(pae, clusters, PAE_SCORE_CUTOFF, MIN_DOMAIN_SIZE, FREQ_DISORDERED, FREQ_LINKER)
 
     clusters = filter_short(clusters, MIN_DOMAIN_SIZE)
+    clusters = readjust_ends(clusters)
 
     if plot: #plot pae matrix with predicted domains
         cols = map_cols(clusters, len(np.unique(clusters)), form=form)
@@ -289,18 +290,24 @@ def adjust_linker_(pae_counts, clusters, linker, FREQ_LINKER):
     l_border = linker[0]; r_border=linker[-1]
     thresh  = pae_counts[l_border : r_border+1].min() + FREQ_LINKER #Thresh depends on linker and level of packing in PAE matrix
 
-    #if linker is next to a disordered region, it cannot be a linker (either add to linker or to nearest domain)
-    if (clusters[l_border-1] == -2): #left of linker
-        for i in linker:
-            if pae_counts[i] < FREQ_LINKER: clusters[i] = -2
-            else: clusters[i:r_border+1] = clusters[r_border+1]; return clusters
-        return clusters
 
-    if (clusters[r_border+1] == -2): #right of linker
-        for i in reversed(linker):
-            if pae_counts[i] < FREQ_LINKER: clusters[i] = -2
-            else: clusters[l_border:i+1] = clusters[l_border-1]; return clusters
-        return clusters
+
+
+    #if linker is next to a disordered region, it cannot be a linker (either add to linker or to nearest domain)
+#    if (clusters[l_border-1] == -2): #left of linker
+#        for i in linker:
+#            if pae_counts[i] < FREQ_LINKER: clusters[i] = -2
+#            else: clusters[i:r_border+1] = clusters[r_border+1]; return clusters
+#        return clusters
+
+#    if (clusters[r_border+1] == -2): #right of linker
+#        for i in reversed(linker):
+#            if pae_counts[i] < FREQ_LINKER: clusters[i] = -2
+#            else: clusters[l_border:i+1] = clusters[l_border-1]; return clusters
+#        return clusters
+
+
+
 
     linker_tr = pae_counts[l_border: r_border+1] <= thresh #find "core" of linker
     l_border_new = pd.Series(linker_tr)[linker_tr].index[0]; r_border_new = pd.Series(linker_tr)[linker_tr].index[-1]
@@ -319,14 +326,31 @@ def adjust_linker_(pae_counts, clusters, linker, FREQ_LINKER):
     #right boundary of linker
     if r_border_new == len(linker_tr)-1:
         extend = True #extend border
-        i=0
-        while (extend == True) & (r_border+i < len(clusters)-1):
-            clusters[r_border+i] = -1
-            i += 1
-            extend = pae_counts[r_border+i] <= thresh
-            if (r_border+i == len(clusters)-1): clusters[r_border+i] = -1
+        j=0
+        while (extend == True) & (r_border+j < len(clusters)-1):
+            clusters[r_border+j] = -1
+            j += 1
+            extend = pae_counts[r_border+j] <= thresh
+            if (r_border+j == len(clusters)-1): clusters[r_border+j] = -1
     else:
         clusters[l_border+r_border_new+1:r_border+1] = clusters[r_border+1] #chop
+
+    return clusters
+
+
+
+def readjust_ends(clusters):
+    #if linker extends to the end of the protein convert to disordered region
+    if (clusters.iloc[0] == -1) | (clusters.iloc[0] == -2):
+        k = 0
+        while (clusters.iloc[k] == -1) | (clusters.iloc[k] == -2):
+            clusters.iloc[k] = -2
+            k += 1
+    if (clusters.iloc[-1] == -1) | (clusters.iloc[-1] == -2):
+        k = len(clusters) - 1
+        while (clusters.iloc[k] == -1) | (clusters.iloc[k] == -2):
+            clusters.iloc[k] = -2
+            k -= 1
 
     return clusters
 
@@ -360,8 +384,7 @@ def adjust_linkers(pae, clusters, PAE_SCORE_CUTOFF, MIN_DOMAIN_SIZE, FREQ_DISORD
             domain = prop < 0.50 #most probably a domain surrounded by two linkers; at least half of the residues are ordered
 
             if domain:
-                #If linker is at end of sequence because of previous correction, set it as a disordered region
-                if (pae_counts[linker] <= FREQ_LINKER).all(): clusters[linker] = -2; return clusters
+                if (pae_counts[linker] <= FREQ_LINKER).all(): clusters[linker] = -1; return clusters
 
                 #find actual linkers on either side of domain
                 dom_start = -1; dom_end = -1
@@ -380,22 +403,25 @@ def adjust_linkers(pae, clusters, PAE_SCORE_CUTOFF, MIN_DOMAIN_SIZE, FREQ_DISORD
 One last check of domains. Domains that are too small (< MIN_DOMAIN_SIZE) are converted to linkers or disordered regions depending on location.
 """
 def filter_short(clusters, MIN_DOMAIN_SIZE):
-    for i in set(clusters.unique()) - set([-1, -2]):
+    domain_ids = set(clusters.unique()) - set([-1, -2])
+    if (clusters.value_counts()[list(domain_ids)] > MIN_DOMAIN_SIZE).all(): return clusters
+
+    for i in domain_ids:
         short = (clusters == i).sum() < MIN_DOMAIN_SIZE
         if short & ((clusters.iloc[0] == i) | (clusters.iloc[-1] == i)):
             start = True if (clusters.iloc[0] == i) else False
-            #clusters[clusters==i] = -2
+
             if start:
-                end_dis = clusters.loc[clusters == -2].index[-1] + 1
-                while clusters.iloc[end_dis] == -1:
-                    clusters.iloc[end_dis] = -2
-                    end_dis += 1
+                j=0
+                while (clusters.iloc[j] == i) | (clusters.iloc[j] == -1):
+                    clusters.iloc[j] = -2
+                    j+=1
             else:
-                start_dis = clusters.loc[clusters == i].index[0] - 1
-                while clusters.iloc[start_dis] == -1:
-                    clusters.iloc[start_dis] = -2
-                    start_dis -= 1
-            clusters[clusters==i] = -2
+                j=len(clusters)-1
+                while (clusters.iloc[j] == i) | (clusters.iloc[j] == -1):
+                    clusters.iloc[j] = -2
+                    j -= 1
+            #clusters[clusters==i] = -2
         elif short & ((clusters.iloc[0] != i) & (clusters.iloc[-1] != i)):
             clusters[clusters==i] = -1
     return clusters
