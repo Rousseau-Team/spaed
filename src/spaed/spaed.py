@@ -357,7 +357,7 @@ def adjust_linkers(pae, clusters, PAE_SCORE_CUTOFF, MIN_DOMAIN_SIZE, FREQ_DISORD
     for linker in linkers:
         if len(linker) > MIN_DOMAIN_SIZE-5: #probably a domain
             prop = (pae_counts[linker] <= FREQ_DISORDERED).sum() / len(linker) #proportion of disordered residues
-            domain = prop < 0.50 #most probably a domain surrounded by two linkers; at least 4/5 of residues are ordered
+            domain = prop < 0.50 #most probably a domain surrounded by two linkers; at least half of the residues are ordered
 
             if domain:
                 #If linker is at end of sequence because of previous correction, set it as a disordered region
