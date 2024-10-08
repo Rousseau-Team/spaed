@@ -107,7 +107,7 @@ def load_pae(filepath):
     else:
         pae = np.array(data["predicted_aligned_error"])
 
-    pae = pae + pae.T / 2 #make matrix symmetrical
+    pae = (pae + pae.T) / 2 #make matrix symmetrical
 
     return pae
 
