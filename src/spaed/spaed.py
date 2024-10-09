@@ -56,8 +56,8 @@ Returns:
 - which domain each residue corresponds to (list of ints)
 - Number of predicted domains (excluding linkers and disordered regions)
 """
-def spaed_(pae, MAX_CLUSTERS=40, MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=20, PAE_SCORE_CUTOFF=5, FREQ_DISORDERED=6,
-             PROP_DISORDERED=0.80, FREQ_LINKER=15, form=True, ends=True, artifacts=True, linkers=True, plot=False):
+def spaed_(pae, MAX_CLUSTERS="dynamic", MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=20, PAE_SCORE_CUTOFF=3, FREQ_DISORDERED=6,
+             PROP_DISORDERED=0.80, FREQ_LINKER=25, form=True, ends=True, artifacts=True, linkers=True, plot=False):
 
     if MAX_CLUSTERS=="dynamic":
         clusters = hcluster.fclusterdata(pae, len(pae)//10, criterion="maxclust") #perform clustering
@@ -289,25 +289,6 @@ Returns: adjusted clusters each residue are assigned to after treatment
 def adjust_linker_(pae_counts, clusters, linker, FREQ_LINKER):
     l_border = linker[0]; r_border=linker[-1]
     thresh  = pae_counts[l_border : r_border+1].min() + FREQ_LINKER #Thresh depends on linker and level of packing in PAE matrix
-
-
-
-
-    #if linker is next to a disordered region, it cannot be a linker (either add to linker or to nearest domain)
-#    if (clusters[l_border-1] == -2): #left of linker
-#        for i in linker:
-#            if pae_counts[i] < FREQ_LINKER: clusters[i] = -2
-#            else: clusters[i:r_border+1] = clusters[r_border+1]; return clusters
-#        return clusters
-
-#    if (clusters[r_border+1] == -2): #right of linker
-#        for i in reversed(linker):
-#            if pae_counts[i] < FREQ_LINKER: clusters[i] = -2
-#            else: clusters[l_border:i+1] = clusters[l_border-1]; return clusters
-#        return clusters
-
-
-
 
     linker_tr = pae_counts[l_border: r_border+1] <= thresh #find "core" of linker
     l_border_new = pd.Series(linker_tr)[linker_tr].index[0]; r_border_new = pd.Series(linker_tr)[linker_tr].index[-1]
