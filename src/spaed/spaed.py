@@ -138,7 +138,8 @@ def form_domains(pae, clusters, MIN_DOMAIN_SIZE, PAE_SCORE_CUTOFF, MIN_DISORDERE
     for i, c_1 in enumerate(domain_ids):
         for j, c_2 in enumerate(domain_ids):
             if ((i != j) & (i < j)):
-                if (c_1 in clusters) & (c_2 in clusters): continue
+                if ((c_1 not in np.array(clusters)) | (c_2 not in np.array(clusters))):
+                    continue
                 i_min = clusters[clusters == c_1].index[0]; i_max = clusters[clusters == c_1].index[-1]
                 j_min = clusters[clusters == c_2].index[0]; j_max = clusters[clusters == c_2].index[-1]
 
