@@ -5,8 +5,12 @@ import numpy as np
 import pandas as pd
 
 import scipy.cluster.hierarchy as hcluster
-from .get_domain_seqs import fetch_domains
+#from .get_domain_seqs import fetch_domains
 
+if __package__ is None or __package__ == '':
+    from get_domain_seqs import fetch_domains
+else:
+    from .get_domain_seqs import fetch_domains
 
 # Parse arguments
 def parse_args():
@@ -545,12 +549,12 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
     all_delineations.to_csv(output_file)
 
     if fasta_path != "":
-        #try:
-        print("Fetching sequences for predicted domains...")
-        output_folder = os.path.dirname(output_file)
-        fetch_domains(output_file, fasta_path, output_path=os.path.join(output_folder, "spaed_predicted_domains.faa"), mode="domains")
-        #except:
-        #    print("Error probably originating from fasta file. Is it well formatted ? Do headers and filenames (if a folder is specified) match the filenames of pae files exactly ?")
+        try:
+            print("Fetching sequences for predicted domains...")
+            output_folder = os.path.dirname(output_file)
+            fetch_domains(output_file, fasta_path, output_path=os.path.join(output_folder, "spaed_predicted_domains.faa"), mode="domains")
+        except:
+            print("Error probably originating from fasta file. Is it well formatted ? Do headers and filenames (if a folder is specified) match the filenames of pae files exactly ?")
 
 
 
