@@ -5,7 +5,6 @@ import numpy as np
 import pandas as pd
 
 import scipy.cluster.hierarchy as hcluster
-#from .get_domain_seqs import fetch_domains
 
 if __package__ is None or __package__ == '':
     from get_domain_seqs import fetch_domains
@@ -65,10 +64,7 @@ Returns:
 def spaed_(pae, RATIO_NUM_CLUSTERS=10, MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=20, PAE_SCORE_CUTOFF=3, FREQ_DISORDERED=6,
              PROP_DISORDERED=0.80, FREQ_LINKER=25, form=True, ends=True, artifacts=True, linkers=True, plot=False):
 
-    #if MAX_CLUSTERS=="dynamic":
     clusters = hcluster.fclusterdata(pae, len(pae)//RATIO_NUM_CLUSTERS, criterion="maxclust") #perform clustering
-    #else:
-    #    clusters = hcluster.fclusterdata(pae, MAX_CLUSTERS, criterion="maxclust") #perform clustering
 
     if form: #identify domains
         clusters = form_domains(pae, clusters, MIN_DOMAIN_SIZE, PAE_SCORE_CUTOFF, MIN_DISORDERED_SIZE, FREQ_DISORDERED, PROP_DISORDERED)
@@ -82,8 +78,9 @@ def spaed_(pae, RATIO_NUM_CLUSTERS=10, MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=2
     if linkers: #adjust linkers
         clusters = adjust_linkers(pae, clusters, PAE_SCORE_CUTOFF, MIN_DOMAIN_SIZE, FREQ_DISORDERED, FREQ_LINKER)
 
-    clusters = filter_short(clusters, MIN_DOMAIN_SIZE)
-    clusters = readjust_ends(clusters)
+    if form and artifacts and linkers and ends:
+        clusters = filter_short(clusters, MIN_DOMAIN_SIZE)
+        clusters = readjust_ends(clusters)
 
     if plot: #plot pae matrix with predicted domains
         cols = map_cols(clusters, len(np.unique(clusters)), form=form)
@@ -92,9 +89,7 @@ def spaed_(pae, RATIO_NUM_CLUSTERS=10, MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=2
 
     clusters = norm_cluster_numbers(clusters)
 
-    num_domains = len(set(clusters.unique()) - set([-1, -2]))
-
-    return clusters, num_domains
+    return clusters
 
 
 """
@@ -517,11 +512,11 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
         except:
             print(f"File not formatted correctly: {pae_path}")
 
-        clusters, num_domains = spaed_(pae, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER)
+        clusters = spaed_(pae, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER)
         delin = get_delineations(clusters)
         all_delineations.loc[sample_name, ["domains", "linkers", "disordered"]] = delin.iloc[0]
         all_delineations.loc[sample_name, "length"] = len(pae)
-        all_delineations.loc[sample_name, "# domains"] = num_domains
+        all_delineations.loc[sample_name, "# domains"] = len(delin.iloc[0].domains.split(";"))
 
     else:
         pae_filenames = [f for f in os.listdir(pae_path) if f.endswith(".json")] #find filenames
@@ -537,14 +532,14 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
                 continue
 
             try:
-                clusters, num_domains = spaed_(pae, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER)
+                clusters = spaed_(pae, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER)
             except:
                 print(f"Error with {sample_name}. File was skipped, please investigate.")
                 continue
             delin = get_delineations(clusters)
             all_delineations.loc[sample_name, ["domains", "linkers", "disordered"]] = delin.loc[0]
             all_delineations.loc[sample_name, "length"] = len(pae)
-            all_delineations.loc[sample_name, "# domains"] = num_domains
+            all_delineations.loc[sample_name, "# domains"] = len(delin.loc[0, "domains"].split(";"))
 
     all_delineations.to_csv(output_file)
 
