@@ -7,7 +7,7 @@ import argparse
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('pred_path', help='Path to spaed prediction file. Make sure entries have same name as in fasta.')
-    parser.add_argument('--fasta_path', help='Path to fasta file or folder containing fasta files. Make sure headers and/or file names correspond to entries in prediction file.', default=10)
+    parser.add_argument('--fasta_path', help='Path to fasta file or folder containing fasta files. Make sure headers and/or file names correspond to entries in prediction file.')
     parser.add_argument('--output_path', help="Path to output file.", default="predicted_domain_seqs.faa")
     parser.add_argument('--mode', help='Whether to get sequences for predicted domains, linkers, or disordered regions. options: domains, linkers, disordered.', default="domains")
     args = parser.parse_args()
@@ -47,7 +47,7 @@ def load_fasta(fasta_path, prot):
     if prot != "":
         fasta_path = search_for_fasta(fasta_path, prot)
         if fasta_path is None: return None
-    
+
     seqs = dict()
     with open(fasta_path) as f:
         lines = f.readlines()
@@ -76,7 +76,7 @@ def subset_dom_seq(preds, prot, seq, mode="domains"):
 
         dom_seq = seq[start_ind:end_ind+1]
         dom_seqs.append(dom_seq)
-        
+
     return dom_seqs
 
 
