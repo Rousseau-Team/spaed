@@ -25,7 +25,8 @@ pip install numpy pandas scipy
 
 ex. `python spaed/src/spaed/spaed.py pae_path`
 
-
+Optional dependency for structure visualisation: pymol (`conda install -c conda-forge -c schrodinger pymol-bundle`)
+ex. `python spaed/src/spaed/pymol_vis.py pred_path pdb_path --output_folder pymol_output --output_type {pse|png|both}`
 
 ## Advanced usage
 **Positional arguments**:
