@@ -83,8 +83,10 @@ def spaed_(pae, RATIO_NUM_CLUSTERS=10, MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=2
         clusters = readjust_ends(clusters)
 
     if plot: #plot pae matrix with predicted domains
+        import seaborn as sns
+        import matplotlib.pyplot as plt
         cols = map_cols(clusters, len(np.unique(clusters)), form=form)
-        g = sns.clustermap(data=pae, col_colors=cols, row_cluster=False, col_cluster=False, dendrogram_ratio=0.05, cbar_pos=None, figsize=(5, 5))
+        g = sns.clustermap(data=pae, col_colors=cols, row_cluster=False, col_cluster=False, dendrogram_ratio=0.05, cbar_pos=None, figsize=(5, 5), yticklabels=False, xticklabels=False)
         plt.show()
 
     clusters = norm_cluster_numbers(clusters)
@@ -440,6 +442,7 @@ def norm_cluster_numbers(clusters):
 #Function to map colors to clusters to plot pae matrix with clusters
 def map_cols(clusters, n, form=True):
     if not form:
+        import distinctipy
         colors = distinctipy.get_colors(n+2)
     else:
         colors = [[0.8392156862745098, 0.15294117647058825, 0.1568627450980392], [0.4980392156862745, 0.4980392156862745, 0.4980392156862745],
