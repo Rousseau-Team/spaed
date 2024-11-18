@@ -106,7 +106,15 @@ def load_pae(filepath):
         data = json.load(f)
 
     if len(data) == 1:
-        pae = np.array(data[0]["predicted_aligned_error"])
+        if type(data[0]) == dict:
+            pae = np.array(data[0]["predicted_aligned_error"])
+        if type(data[0]) == list:
+            pae = np.array(data[0])
+
+    elif len(data) <= 10:
+        if type(data[0]) == list:
+            pae = np.array(data[0])
+
     else:
         pae = np.array(data["predicted_aligned_error"])
 
