@@ -105,18 +105,18 @@ def load_pae(filepath):
     with open(filepath) as f:
         data = json.load(f)
 
-    if len(data) == 1:
-        if type(data[0]) == dict:
-            pae = np.array(data[0]["predicted_aligned_error"])
-        if type(data[0]) == list:
-            pae = np.array(data[0])
+    if type(data) == dict:
+        pae = np.array(data["predicted_aligned_error"])
+
+    elif type(data[0]) == dict:
+        pae = np.array(data[0]["predicted_aligned_error"])
+
 
     elif len(data) <= 10:
-        if type(data[0]) == list:
-            pae = np.array(data[0])
+        pae = np.array(data[0])
 
     else:
-        pae = np.array(data["predicted_aligned_error"])
+        pae = np.array(data)
 
     pae = (pae + pae.T) / 2 #make matrix symmetrical
 
