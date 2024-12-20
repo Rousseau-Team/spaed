@@ -1,4 +1,4 @@
-# SPAED: Segmentation of PhAge Endolysin Domains using the predicted aligned error (PAE) matrix of Alphafold
+# SPAED: Segmentation of PhAge Endolysin Domains using the predicted aligned error (PAE) matrix from Alphafold
 
 
 ## Installation & usage
