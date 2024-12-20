@@ -106,11 +106,20 @@ def load_pae(filepath):
         data = json.load(f)
 
     if type(data) == dict:
-        pae = np.array(data["predicted_aligned_error"])
+        if "predicted_aligned_error" in data.keys():
+            pae = np.array(data["predicted_aligned_error"])
+        elif "pae" in data.keys():
+            pae = np.array(data["pae"])
+        else:
+            print("No key in json dictionnary corresponds to pae or predicted_aligned_error.")
 
     elif type(data[0]) == dict:
-        pae = np.array(data[0]["predicted_aligned_error"])
-
+        if "predicted_aligned_error" in data[0].keys():
+            pae = np.array(data[0]["predicted_aligned_error"])
+        elif "pae" in data[0].keys():
+            pae = np.array(data[0]["pae"])
+        else:
+            print("No key in json dictionnary corresponds to pae or predicted_aligned_error.")
 
     elif len(data) <= 10:
         pae = np.array(data[0])
