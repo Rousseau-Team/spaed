@@ -1,5 +1,10 @@
-# SPAED: Segmentation of PhAge Endolysin Domains using the predicted aligned error (PAE) matrix from Alphafold
+![SPAED logo](img/icon.png)
 
+# Segmentation of PhAge Endolysin Domains using the predicted aligned error (PAE) matrix from AlphaFold
+
+SPAED is a tool to identify domains in phage endolysins. It takes as input the PAE file(s) obtained from AlphaFold and outputs a csv file with delineations.
+
+Additional scripts are provided to visualize predicted domains with PyMOL and to obtain their amino acid sequences. 
 
 ## Installation & usage
 
@@ -49,3 +54,7 @@ MAX_CLUSTERS refers to the # of clusters the hierarchical clustering (in scipy) 
 If you are interested in looking at the disordered regions in N- or C-terminal, consider increasing FREQ_DISORDERED ([4-30]), decreasing MIN_DISORDERED_SIZE ([10-30]) or decreasing PROP_DISORDERED ([50-95]). This will result in more disordered regions being detected, but also many false positives. I would not change them all at the same time as this will probably increase the sensitivity too much.
 
 If you are interested in linkers or have a protein that is less well folded, consider modifying the FREQ_LINKER parameter ([4-30]). This value is used to adjust the boundaries of the linkers and as such, a higher value will result in longer linkers. However, linkers that were missed will still not be detected.
+
+## Citation
+
+For now, please cite this repository when you use SPAED. A preprint will be available shortly.
