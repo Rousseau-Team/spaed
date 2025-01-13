@@ -74,7 +74,7 @@ def vis_structure(pdb, sample_name, pred, output_folder, output_type='png'):
 
 
 
-def main(pdb_path, pred_path, output_folder, output_type='png'):
+def pymol_vis(pdb_path, pred_path, output_folder, output_type='png'):
     #load prediction file
     assert  os.path.isfile(pred_path), "Specified domain prediction file was not found or is not a file."
     preds = pd.read_csv(pred_path, index_col=0)
@@ -96,4 +96,4 @@ def main(pdb_path, pred_path, output_folder, output_type='png'):
 
 if __name__ == '__main__':
     pred_path, pdb_path, output_folder, output_type = parse_args()
-    main(pdb_path, pred_path, output_folder, output_type)
+    pymol_vis(pdb_path, pred_path, output_folder, output_type)
