@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="img/title.png"/>
+  <img src="img/title.png" border="0"/>
   <h2 align="center">Segmentation of PhAge Endolysin Domains</h2>
 </p>
 
