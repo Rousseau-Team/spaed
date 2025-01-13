@@ -1,5 +1,5 @@
 <p align="center">
-![SPAED logo](img/title.png)
+<img src="img/title.png">
 
 <h2 align="center">Segmentation of PhAge Endolysin Domains</h2>
 </p>
