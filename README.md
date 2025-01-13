@@ -1,6 +1,6 @@
 ![SPAED logo](img/title.png)
 
-<h2 style="text-align:center;">Segmentation of PhAge Endolysin Domains</h2>
+<p style="text-align:center;">Segmentation of PhAge Endolysin Domains</p>
 
 SPAED is a tool to identify domains in phage endolysins. It takes as input the PAE file(s) obtained from AlphaFold and outputs a csv file with delineations.
 
