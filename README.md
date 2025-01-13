@@ -1,4 +1,4 @@
-![SPAED logo](img/icon.png)
+![SPAED logo](img/title.png)
 
 # Segmentation of PhAge Endolysin Domains using the predicted aligned error (PAE) matrix from AlphaFold
 
