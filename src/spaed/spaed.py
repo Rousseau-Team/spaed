@@ -61,8 +61,8 @@ Returns:
 - which domain each residue corresponds to (list of ints)
 - Number of predicted domains (excluding linkers and disordered regions)
 """
-def spaed_(pae, RATIO_NUM_CLUSTERS=10, MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=20, PAE_SCORE_CUTOFF=3, FREQ_DISORDERED=6,
-             PROP_DISORDERED=0.80, FREQ_LINKER=25, form=True, ends=True, artifacts=True, linkers=True, plot=False):
+def spaed_(pae, RATIO_NUM_CLUSTERS=10, MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=20, PAE_SCORE_CUTOFF=4, FREQ_DISORDERED=6,
+             PROP_DISORDERED=0.80, FREQ_LINKER=20, form=True, ends=True, artifacts=True, linkers=True, plot=False):
 
     clusters = hcluster.fclusterdata(pae, len(pae)//RATIO_NUM_CLUSTERS, criterion="maxclust") #perform clustering
 
