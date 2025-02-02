@@ -519,7 +519,7 @@ Function that launches the whole pipeline.
 def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_NUM_CLUSTERS=10, MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=20, PAE_SCORE_CUTOFF=5, FREQ_DISORDERED=6, PROP_DISORDERED=0.80, FREQ_LINKER=15):
     pattern = "_predicted_aligned_error_v1"
     all_delineations = pd.DataFrame(columns=["length", "# domains", "domains", "linkers", "disordered"]).astype(object)
-    print("Start")
+
     #Check that specified path to input exists
     if not os.path.exists(pae_path):
         raise FileNotFoundError(f"{pae_path} was not found.")
@@ -544,7 +544,7 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
         for file in pae_filenames:
             filepath = os.path.join(pae_path, file)
             sample_name = os.path.basename(filepath).replace(".json", "").replace(pattern, "") #find sample name
-            print(sample_name)
+
             try:
                 pae = load_pae(filepath)
             except:
