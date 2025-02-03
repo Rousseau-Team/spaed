@@ -565,7 +565,7 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
 
     if fasta_path != "":
         try:
-            print("Fetching sequences for predicted domains...")
+            #print("Fetching sequences for predicted domains...")
             output_folder = os.path.dirname(output_file)
             fetch_domains(output_file, fasta_path, output_path=os.path.join(output_folder, "spaed_predicted_domains.faa"), mode="domains")
         except:
