@@ -11,7 +11,7 @@ exclude = ["docs/*"]
 
 [project]
 name = "spaed"
-version = "1.0.0"
+version = "1.0.2"
 authors = [
   { name="Alexandre Boulay", email="alexandre.boulay.6@ulaval.ca" }
 ]
