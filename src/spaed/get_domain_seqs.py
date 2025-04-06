@@ -62,7 +62,9 @@ def load_fasta(fasta_path, prot):
 
 # Get sequence from dict of {protID: seq}
 def get_seq(fasta_seqs, prot):
-    return fasta_seqs[prot]
+    try: seq = fasta_seqs[prot]
+    except: print(f"{prot} not found in fasta file.")
+    return seq
 
 
 # Fetch domains
