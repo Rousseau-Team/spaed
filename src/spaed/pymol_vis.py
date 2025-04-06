@@ -38,7 +38,7 @@ def vis_structure(pdb, sample_name, pred, output_folder, output_type='png'):
         disordered = str(pred.loc[sample_name, "disordered"])
         linkers = str(pred.loc[sample_name, "linkers"])
     except:
-        print(f"{sample_name} not found in prediction file. Make sure name of pdb file corresponds to entry in predictions file with .pdb extension.")
+        print(f"{sample_name} not found. Make sure name.pdb corresponds to name.json (pae file).")
         return
 
     #show cartoon
