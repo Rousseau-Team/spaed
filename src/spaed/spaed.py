@@ -516,7 +516,7 @@ def get_delineations(clusters):
 """
 Function that launches the whole pipeline.
 """
-def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_NUM_CLUSTERS=10, MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=20, PAE_SCORE_CUTOFF=5, FREQ_DISORDERED=6, PROP_DISORDERED=0.80, FREQ_LINKER=15):
+def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_NUM_CLUSTERS=10, MIN_DOMAIN_SIZE=30, MIN_DISORDERED_SIZE=20, PAE_SCORE_CUTOFF=5, FREQ_DISORDERED=6, PROP_DISORDERED=0.80, FREQ_LINKER=15, verbose=2):
     pattern = "_predicted_aligned_error_v1"
     all_delineations = pd.DataFrame(columns=["length", "# domains", "domains", "linkers", "disordered"]).astype(object)
 
@@ -530,7 +530,8 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
         try:
             pae = load_pae(pae_path)
         except:
-            print(f"File not formatted correctly: {pae_path}")
+            if verbose > 0:
+                print(f"File not formatted correctly: {pae_path}")
 
         clusters = spaed_(pae, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER)
         delin = get_delineations(clusters)
@@ -548,13 +549,17 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
             try:
                 pae = load_pae(filepath)
             except:
-                print(f"File not properly formatted: {filepath}")
+                if verbose > 0:
+                    print(f"File not properly formatted: {filepath}")
                 continue
 
             try:
                 clusters = spaed_(pae, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER)
             except:
-                print(f"Error with {sample_name}. File was skipped, please investigate.")
+                if verbose > 1:
+                    print(f"Error with {sample_name}. File was skipped, please investigate.")
+                with open(os.path.join(os.path.dirname(output_file), "error.txt"), "a") as err_file:
+                    print(f"Error with {sample_name}. File was skipped, please investigate (try launching this sequence alone).")
                 continue
             delin = get_delineations(clusters)
             all_delineations.loc[sample_name, ["domains", "linkers", "disordered"]] = delin.loc[0]
@@ -569,7 +574,8 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
             output_folder = os.path.dirname(output_file)
             fetch_domains(output_file, fasta_path, output_path=os.path.join(output_folder, "spaed_predicted_domains.faa"), mode="domains")
         except:
-            print("Error probably originating from fasta file. Is it well formatted ? Do headers and filenames (if a folder is specified) match the filenames of pae files exactly ?")
+            if verbose > 0:
+                print("Error probably originating from fasta file. Is it well formatted ? Do headers and filenames (if a folder is specified) match the filenames of pae files exactly ?")
 
 
 
