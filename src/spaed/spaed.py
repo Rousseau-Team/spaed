@@ -559,7 +559,7 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
                 if verbose > 1:
                     print(f"Error with {sample_name}. File was skipped, please investigate.")
                 with open(os.path.join(os.path.dirname(output_file), "error.txt"), "a") as err_file:
-                    print(f"Error with {sample_name}. File was skipped, please investigate (try launching this sequence alone).")
+                    err_file.write(f"Error with {sample_name}. File was skipped, please investigate (try launching this sequence alone).")
                 continue
             delin = get_delineations(clusters)
             all_delineations.loc[sample_name, ["domains", "linkers", "disordered"]] = delin.loc[0]
