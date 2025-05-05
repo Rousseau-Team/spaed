@@ -54,6 +54,16 @@ If you are interested in looking at the disordered regions in N- or C-terminal, 
 
 If you are interested in linkers or have a protein that is less well folded, consider modifying the FREQ_LINKER parameter ([4-30]). This value is used to adjust the boundaries of the linkers and as such, a higher value will result in longer linkers. However, linkers that were missed will still not be detected.
 
+
+## Outputs
+A csv file containing the proteinID, length, number of predicted domains, domain delineations, linker delineations, disordered region delineations. Delineations for each domain are separated by a ";" and are formatted as follows: firstResidueDom1 - lastResidueDom1 ; firstResidueDom2 - lastResidueDom2.\
+Ex.
+
+|        | length | # domains |    domains     | linkers | disordered |
+| ------ | ------ | --------- | -------------- | ------- | ---------- |
+| prot 1 | 251    | 2         | 1-120;130-251  | 121-129 |            |
+| prot 2 | 386    | 2         | 86-203;217-386 | 204-216 | 1-85       |
+
 ## Citation
 
 For now, please cite this repository when you use SPAED. A preprint will be available shortly.
