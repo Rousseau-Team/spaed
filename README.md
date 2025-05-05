@@ -66,4 +66,5 @@ Ex.
 
 ## Citation
 
-For now, please cite this repository when you use SPAED. A preprint will be available shortly.
+Boulay, A. et al. SPAED: Harnessing AlphaFold Output for Accurate Segmentation of Phage Endolysin Domains. 2025.04.25.650745 Preprint at https://doi.org/10.1101/2025.04.25.650745 (2025).
+
