@@ -9,7 +9,7 @@ Additional scripts are provided to visualize predicted domains with PyMOL and to
 
 ## Installation & usage
 
-Check out [www.spaed.ca](www.spaed.ca) to launch SPAED quickly!
+Check out [www.spaed.ca](https://spaed.ca) to launch SPAED quickly!
 
 First create a virtual environment, then: 
 
