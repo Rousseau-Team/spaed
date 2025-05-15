@@ -11,7 +11,7 @@ exclude = ["docs/*"]
 
 [project]
 name = "spaed"
-version = "1.0.2"
+version = "1.0.3"
 authors = [
   { name="Alexandre Boulay", email="alexandre.boulay.6@ulaval.ca" }
 ]
@@ -29,6 +29,9 @@ classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
 ]
 keywords = ["phage", "bacteriophage", "bioinformatics", "protein", "segmentation", "delineation", "domain"]
+
+[project.scripts]
+spaed = "spaed.spaed:main"
 
 [project.urls]
 Homepage = "https://github.com/Rousseau-Team/spaed.git"
