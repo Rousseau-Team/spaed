@@ -577,9 +577,12 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
             if verbose > 0:
                 print("Error probably originating from fasta file. Is it well formatted ? Do headers and filenames (if a folder is specified) match the filenames of pae files exactly ?")
 
+def main():
+    pae_path, output_file, fasta_path, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED,FREQ_LINKER = parse_args()
+    spaed(pae_path, output_file, fasta_path, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER)
 
 
 if __name__=='__main__':
-    pae_path, output_file, fasta_path, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER = parse_args()
-
-    spaed(pae_path, output_file, fasta_path, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER)
+    #pae_path, output_file, fasta_path, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER = parse_args()
+    #spaed(pae_path, output_file, fasta_path, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER)
+    main()
