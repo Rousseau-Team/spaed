@@ -32,6 +32,7 @@ keywords = ["phage", "bacteriophage", "bioinformatics", "protein", "segmentation
 
 [project.scripts]
 spaed = "spaed.spaed:main"
+pymol_vis = "spaed.pymol_vis:main"
 
 [project.urls]
 Homepage = "https://github.com/Rousseau-Team/spaed.git"
