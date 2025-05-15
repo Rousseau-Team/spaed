@@ -1,4 +1,3 @@
-from pymol import cmd
 import os
 import argparse
 import pandas as pd
@@ -75,6 +74,8 @@ def vis_structure(pdb, sample_name, pred, output_folder, output_type='png'):
 
 
 def pymol_vis(pdb_path, pred_path, output_folder, output_type='png'):
+    from pymol import cmd
+
     #load prediction file
     assert  os.path.isfile(pred_path), "Specified domain prediction file was not found or is not a file."
     preds = pd.read_csv(pred_path, index_col=0)
