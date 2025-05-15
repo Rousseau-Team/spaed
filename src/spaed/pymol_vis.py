@@ -8,7 +8,7 @@ def parse_args():
     parser.add_argument('pred_path', help='Path to spaed prediction file. Make sure entries have same name as in pdb filename(s).')
     parser.add_argument('pdb_path', help='Path to pdb file or folder containing pdb files. Make sure name of file(s) correspond to entries in prediction file.')
     parser.add_argument('--output_folder', help="Path to output file. (default ./pymol_vis)", default="pymol_vis")
-    parser.add_argument('--output_type', help='Wether to save pymol session (.pse) or png of structure. (options [pse png both]).', default="both")
+    parser.add_argument('--output_type', help='Whether to save pymol session (.pse) or png of structure. (options [pse png both]).', default="both")
     args = parser.parse_args()
 
 
@@ -95,6 +95,11 @@ def pymol_vis(pdb_path, pred_path, output_folder, output_type='png'):
                 sample_name = name.replace(".pdb", "")
                 vis_structure(os.path.join(pdb_path, name), sample_name, preds, output_folder, output_type)
 
-if __name__ == '__main__':
+def main():
     pred_path, pdb_path, output_folder, output_type = parse_args()
     pymol_vis(pdb_path, pred_path, output_folder, output_type)
+
+if __name__ == '__main__':
+    #pred_path, pdb_path, output_folder, output_type = parse_args()
+    #pymol_vis(pdb_path, pred_path, output_folder, output_type)
+    main()
