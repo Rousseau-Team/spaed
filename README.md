@@ -30,10 +30,12 @@ pip install numpy pandas scipy
 
 ex. `python spaed/src/spaed/spaed.py pae_path`
 
-Optional dependency for structure visualisation: pymol (`conda install -c conda-forge -c schrodinger pymol-bundle`)
-ex. `python spaed/src/spaed/pymol_vis.py pred_path pdb_path --output_folder pymol_output --output_type {pse|png|both}`
 
 ## Advanced usage
+Optional dependency for structure visualisation: pymol (`conda install -c conda-forge -c schrodinger pymol-bundle`). Python>3.10 is required, 3.12.9 worked for me.
+ex. (install from pip). `pymol_vis pred_path pdb_path --output_folder pymol_output --output_type {pse|png|both}`
+ex. (install from source). `python spaed/src/spaed/pymol_vis.py pred_path pdb_path --output_folder pymol_output --output_type {pse|png|both}`
+
 **Positional arguments**:
 - **pae_path** - Folder of or singular PAE file in json format as outputted by Alphafold2/Colabfold.
 
