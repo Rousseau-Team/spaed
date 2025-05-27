@@ -556,11 +556,23 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
             try:
                 clusters = spaed_(pae, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER)
             except:
-                if verbose > 1:
-                    print(f"Error with {sample_name}. File was skipped, please investigate.")
-                with open(os.path.join(os.path.dirname(output_file), "error.txt"), "a") as err_file:
-                    err_file.write(f"Error with {sample_name}. File was skipped, please investigate (try launching this sequence alone).")
+                if len(pae) < 100:
+                    all_delineations.loc[sample_name, ["domains", "linkers", "disordered"]] = [f"1-{len(pae)}","",""]
+                    all_delineations.loc[sample_name, "length"] = len(pae)
+                    all_delineations.loc[sample_name, "# domains"] = 1
+
+                    if verbose > 1:
+                        print(f"Warning: Error with {sample_name}, but sequence <100 residues. Assigned 1 domain.")
+                    with open(os.path.join(os.path.dirname(output_file), "error.txt"), "a") as err_file:
+                        err_file.write(f"Warning: Error with {sample_name}, but sequence <100 residues. Assigned 1 domain.")
+
+                if len(pae) >= 100:
+                    if verbose > 1:
+                        print(f"Error with {sample_name}. File was skipped, please investigate.")
+                    with open(os.path.join(os.path.dirname(output_file), "error.txt"), "a") as err_file:
+                        err_file.write(f"Error with {sample_name}. File was skipped, please investigate (try launching this sequence alone).")
                 continue
+
             delin = get_delineations(clusters)
             all_delineations.loc[sample_name, ["domains", "linkers", "disordered"]] = delin.loc[0]
             all_delineations.loc[sample_name, "length"] = len(pae)
