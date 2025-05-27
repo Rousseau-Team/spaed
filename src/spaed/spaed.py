@@ -562,9 +562,9 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
                     all_delineations.loc[sample_name, "# domains"] = 1
 
                     if verbose > 1:
-                        print(f"Warning: Error with {sample_name}, but sequence <100 residues. Assigned 1 domain.")
+                        print(f"Warning: Error with {sample_name}. Sequence <100 residues so it was assigned 1 domain.")
                     with open(os.path.join(os.path.dirname(output_file), "error.txt"), "a") as err_file:
-                        err_file.write(f"Warning: Error with {sample_name}, but sequence <100 residues. Assigned 1 domain.")
+                        err_file.write(f"Warning: Error with {sample_name}. Sequence <100 residues so it was assigned 1 domain.")
 
                 if len(pae) >= 100:
                     if verbose > 1:
