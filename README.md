@@ -57,7 +57,7 @@ If you are interested in linkers or have a protein that is less well folded, con
 
 
 ## Outputs
-A csv file containing the proteinID, length, number of predicted domains, domain delineations, linker delineations, disordered region delineations. Delineations for each domain are separated by a ";".\
+A csv file containing the proteinID, protein length, number of predicted domains, domain delineations, linker delineations, disordered region delineations. Delineations for each domain are separated by a ";".\
 Ex.
 
 |        | length | # domains |    domains     | linkers | disordered |
