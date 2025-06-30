@@ -55,7 +55,7 @@ def load_fasta(fasta_path, prot):
             s=lines[i].strip()
             if s == "": pass
             elif s[0] == '>':
-                key=s[1:]
+                key=s[1:].split()[0]
             else:
                 seqs[key] = s
     return seqs
