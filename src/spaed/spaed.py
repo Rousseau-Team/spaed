@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import argparse
 import numpy as np
@@ -24,6 +25,7 @@ def parse_args():
     parser.add_argument('--FREQ_DISORDERED', type=int, help='For a given residue in the PAE matrix, frequency of residues that can align to it with a low PAE score and still be considered "not part of a domain". Values <MIN_DOMAIN_SIZE are logical, but as it increases, the more leniant the algorithm becomes to disordered regions (more will be predicted). (default 6)', default=6)
     parser.add_argument('--PROP_DISORDERED', type=float, help="Proportion of residues in a given region that must meet FREQ_DISORDERED criteria to be considered a disordered region. The greater the value, the stricter the criteria to predict the region as disordered.", default=0.80)
     parser.add_argument('--FREQ_LINKER', type=int, help='For a given residue in the PAE matrix, frequency of residues that can align to it with a low PAE score and still be considered as part of the linker. Values < MIN_DOMAIN_SIZE are logical as they are less than the expected size of the nearest domain. Increasing leads to a more leniant assignment of residues as part of the linker. (default 20)', default=20)
+    parser.add_argument('-v', '--version', help='Display installed SPAED version number.',  action='version', version=fetch_version())
     args = parser.parse_args()
 
 
@@ -39,6 +41,26 @@ def parse_args():
     FREQ_LINKER = args.FREQ_LINKER
 
     return pae_path, output_file, fasta_path, RATIO_NUM_CLUSTERS, MIN_DOMAIN_SIZE, MIN_DISORDERED_SIZE, PAE_SCORE_CUTOFF, FREQ_DISORDERED, PROP_DISORDERED, FREQ_LINKER
+
+
+"""
+Print the currently installed spaed version
+"""
+def fetch_version():
+    try:
+        import importlib.metadata
+        return importlib.metadata.version('spaed')
+    except importlib.metadata.PackageNotFoundError as e:
+        raise installError("Error fetching SPAED version. Is SPAED installed from PyPI? If you are launching SPAED from source code, look in pyproject.toml file for version number.")
+        exit()
+
+class installError(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+        self.__suppress_context__ = True
+        sys.tracebacklimit = 0
+
+
 
 """
 User parameters:
