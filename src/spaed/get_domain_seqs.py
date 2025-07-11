@@ -69,10 +69,10 @@ def get_seq(fasta_seqs, prot):
 
 # Fetch domains
 def subset_dom_seq(preds, prot, seq, mode="domains"):
-    if preds.loc[prot, "domains"] == "": return []
+    if preds.loc[prot, mode] == "": return []
 
     dom_seqs = []
-    for dom in preds.loc[prot, "domains"].split(";"):
+    for dom in preds.loc[prot, mode].split(";"):
         start_ind = int(dom.split("-")[0])-1
         end_ind = int(dom.split("-")[1])-1
 
@@ -114,7 +114,7 @@ def fetch_domains(pred_path, fasta_path, output_path="predicted_domain_seqs.faa"
                 seq = get_seq(fasta_seq, prot)
 
             #subset domains from sequence
-            dom_seqs = subset_dom_seq(preds, prot, seq)
+            dom_seqs = subset_dom_seq(preds, prot, seq, mode)
 
             #save to output fasta file
             save_to_fasta(dom_seqs, prot, output_path)

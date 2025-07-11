@@ -524,6 +524,11 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
     if not os.path.exists(pae_path):
         raise FileNotFoundError(f"{pae_path} was not found.")
 
+    #Check output folder exists
+    output_folder = os.path.dirname(output_file)
+    if not os.path.isdir(output_folder):
+        os.makedirs(output_folder)
+
     if os.path.isfile(pae_path):
         sample_name = os.path.basename(pae_path).replace(".json", "").replace(pattern, "")
 
@@ -585,6 +590,8 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
             #print("Fetching sequences for predicted domains...")
             output_folder = os.path.dirname(output_file)
             fetch_domains(output_file, fasta_path, output_path=os.path.join(output_folder, "spaed_predicted_domains.faa"), mode="domains")
+            fetch_domains(output_file, fasta_path, output_path=os.path.join(output_folder, "spaed_predicted_linkers.faa"), mode="linkers")
+            fetch_domains(output_file, fasta_path, output_path=os.path.join(output_folder, "spaed_predicted_disordered.faa"), mode="disordered")
         except:
             if verbose > 0:
                 print("Error probably originating from fasta file. Is it well formatted ? Do headers and filenames (if a folder is specified) match the filenames of pae files exactly ?")
