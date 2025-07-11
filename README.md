@@ -15,7 +15,7 @@ First create a virtual environment, then:
 
 **From pypi**:
 ```
-pip install spaed
+pip install spaed #**note the spelling of spaed
 ```
 
 ex. `spaed pae_path --output_file spaed_predictions.csv`
