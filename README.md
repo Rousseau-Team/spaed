@@ -50,6 +50,7 @@ ex. (install from source). `python spaed/src/spaed/pymol_vis.py pred_path pdb_pa
 - **FREQ_DISORDERED** - For a given residue in the PAE matrix, frequency of residues that can align to it with a low PAE score and still be considered "not part of a domain". Values <MIN_DOMAIN_SIZE are logical, but as it increases, the more leniant the algorithm becomes to non-domain regions (more will be predicted). (default 6).
 - **PROP_DISORDERED** - Proportion of residues in a given region that must meet FREQ_DISORDERED criteria to be considered a terminal disordered region. The greater the value, the stricter the criteria to predict the region as disordered. (default 80%).
 - **FREQ_LINKER** - For a given residue in the PAE matrix, frequency of residues that can align to it with a low PAE score and still be considered as part of the linker. Values < MIN_DOMAIN_SIZE are logical as they are less than the expected size of the nearest domain. Increasing leads to a more leniant assignment of residues as part of the linker. (default 20).
+- **version** - Display installed SPAED version number.
 
 If you are interested in looking at the disordered regions in N- or C-terminal, consider increasing FREQ_DISORDERED ([4-30]), decreasing MIN_DISORDERED_SIZE ([10-30]) or decreasing PROP_DISORDERED ([50-95]). This will result in more (and longer) terminal disordered regions being detected, but also many false positives. I would not change them all at the same time as this will probably increase the sensitivity too much.
 
