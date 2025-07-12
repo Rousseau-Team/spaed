@@ -546,9 +546,14 @@ def spaed(pae_path, output_file="./spaed_predictions.csv", fasta_path="", RATIO_
     if not os.path.exists(pae_path):
         raise FileNotFoundError(f"{pae_path} was not found.")
 
+    #Check output file is a csv or txt file and not a folder
+    if not (output_file.endswith(".csv") | output_file.endswith(".txt")):
+        print("Output file is not the right format (.csv or .txt).")
+        exit()
+
     #Check output folder exists
     output_folder = os.path.dirname(output_file)
-    if not os.path.isdir(output_folder):
+    if not (os.path.isdir(output_folder) | (output_folder == "")):
         os.makedirs(output_folder)
 
     if os.path.isfile(pae_path):
