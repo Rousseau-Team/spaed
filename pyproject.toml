@@ -11,12 +11,14 @@ exclude = ["docs/*"]
 
 [project]
 name = "spaed"
-version = "1.0.3"
+version = "1.0.5"
 authors = [
   { name="Alexandre Boulay", email="alexandre.boulay.6@ulaval.ca" }
 ]
 description = "A module for the segmentation of phage endolysin domains based on the PAE matrix from AlphaFold."
 readme = "README.md"
+
+requires-python = "> 3.10"
 
 dependencies = [
     "numpy",
