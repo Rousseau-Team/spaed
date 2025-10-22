@@ -68,5 +68,5 @@ Ex.
 
 ## Citation
 
-Boulay, A. et al. SPAED: Harnessing AlphaFold Output for Accurate Segmentation of Phage Endolysin Domains. 2025.04.25.650745 Preprint at https://doi.org/10.1101/2025.04.25.650745 (2025).
+Alexandre Boulay, Emma Cremelie, Clovis Galiez, Yves Briers, Elsa Rousseau, Roberto Vázquez, SPAED: harnessing AlphaFold output for accurate segmentation of phage endolysin domains, Bioinformatics, Volume 41, Issue 10, October 2025, btaf531, https://doi.org/10.1093/bioinformatics/btaf531.
 
