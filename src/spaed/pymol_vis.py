@@ -2,7 +2,6 @@ import os
 import argparse
 import pandas as pd
 
-
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('pred_path', help='Path to spaed prediction file. Make sure entries have same name as in pdb filename(s).')
@@ -22,6 +21,8 @@ def parse_args():
 
 
 def vis_structure(pdb, sample_name, pred, output_folder, output_type='png'):
+    from pymol import cmd
+
     #Load file
     cmd.feedback('disable', 'all', 'actions')
     cmd.feedback('disable', 'all', 'results')
@@ -74,7 +75,6 @@ def vis_structure(pdb, sample_name, pred, output_folder, output_type='png'):
 
 
 def pymol_vis(pdb_path, pred_path, output_folder, output_type='png'):
-    from pymol import cmd
 
     #load prediction file
     assert  os.path.isfile(pred_path), "Specified domain prediction file was not found or is not a file."
