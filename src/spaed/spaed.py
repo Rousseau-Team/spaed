@@ -509,7 +509,7 @@ def map_cols(clusters, n, form=True):
 
 
 def get_delineations(clusters):
-    delin = pd.DataFrame(["", "", ""], index=["domains", "linkers", "disordered"]).T
+    delin = pd.DataFrame(["", "", ""], index=["domains", "linkers", "disordered"]).T.copy(deep=True)
 
     clust = clusters[0]
     start = 0; end = 0
